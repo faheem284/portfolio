@@ -21,9 +21,14 @@
 <meta property="og:locale" content="en_US">
 <meta property="profile:first_name" content="Faheem">
 <meta property="profile:last_name" content="Haider">
-<meta name="twitter:card" content="summary">
+<meta property="og:image" content="https://faheemhaider.com/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Faheem Haider — Full-Stack Software Engineer. React, TypeScript, Laravel, Node.js, Shopify.">
+<meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Faheem Haider — Full-Stack Software Engineer">
 <meta name="twitter:description" content="Multi-tenant SaaS, e-commerce platforms and Shopify apps built with React, TypeScript, Laravel and Node.js.">
+<meta name="twitter:image" content="https://faheemhaider.com/og-image.png">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -42,8 +47,8 @@
     "worksFor": { "@type": "Organization", "name": "Tetralogicx" },
     "alumniOf": { "@type": "CollegeOrUniversity", "name": "COMSATS University Islamabad" },
     "address": { "@type": "PostalAddress", "addressLocality": "Lahore", "addressCountry": "PK" },
-    "email": "mailto:faheemhaider521@gmail.com",
-    "sameAs": ["https://www.linkedin.com/in/faheemhaider07", "https://github.com/faheem521"],
+    "email": "faheemhaider521@gmail.com",
+    "sameAs": ["https://www.linkedin.com/in/faheemhaider07", "https://github.com/faheem284"],
     "knowsAbout": ["React", "TypeScript", "Next.js", "Remix", "Laravel", "Node.js", "Shopify App Development", "Shopify GraphQL Admin API", "Multi-tenant SaaS", "REST APIs", "MySQL", "PostgreSQL", "Prisma", "Stripe"]
   }
 }
@@ -54,7 +59,10 @@
   (function () {
     var t = null;
     try { t = localStorage.getItem('theme'); } catch (e) {}
-    if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t);
+    if (t === 'light' || t === 'dark') {
+      document.documentElement.setAttribute('data-theme', t);
+      document.querySelectorAll('meta[name="theme-color"]').forEach(function (m) { m.setAttribute('content', t === 'dark' ? '#09090B' : '#FAFAFA'); });
+    }
     document.documentElement.classList.add('js');
   })();
 </script>
@@ -332,12 +340,12 @@ h2.section-title { font-size: clamp(30px, 4vw, 46px); letter-spacing: -0.035em; 
 }
 .market:hover { border-color: var(--accent); transform: translateY(-1px); }
 
-/* hero load-in sequence */
-.js .load { opacity: 0; transform: translateY(16px); filter: blur(6px); animation: load-in .9s var(--ease-out) forwards; animation-delay: calc(var(--d, 0) * 90ms + 100ms); }
-@keyframes load-in { to { opacity: 1; transform: none; filter: blur(0); } }
+/* hero load-in sequence. Uses `translate` (not `transform`) so elements keep their own transform/animation. */
+.js .load { opacity: 0; translate: 0 16px; filter: blur(6px); animation: load-in .9s var(--ease-out) forwards; animation-delay: calc(var(--d, 0) * 90ms + 100ms); }
+@keyframes load-in { to { opacity: 1; translate: 0 0; filter: blur(0); } }
 
 /* hero visual: code card + profile card */
-.hero-visual { position: relative; min-height: 480px; }
+.hero-visual { position: relative; min-height: 620px; }
 @media (max-width: 1020px) { .hero-visual { min-height: 0; display: grid; gap: 16px; } }
 .code-card {
   position: absolute; top: 0; right: 0; width: 88%;
@@ -362,8 +370,12 @@ h2.section-title { font-size: clamp(30px, 4vw, 46px); letter-spacing: -0.035em; 
 }
 @keyframes float-a { 0%, 100% { transform: rotate(2deg) translateY(0); } 50% { transform: rotate(2deg) translateY(-10px); } }
 @keyframes float-b { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(8px); } }
+/* run the load-in and the idle float together (a lone `.js .load` would override the float) */
+.js .code-card.load { animation: load-in .9s var(--ease-out) calc(var(--d, 0) * 90ms + 100ms) forwards, float-a 8s ease-in-out infinite; }
+.js .profile-card.load { animation: load-in .9s var(--ease-out) calc(var(--d, 0) * 90ms + 100ms) forwards, float-b 9s ease-in-out infinite; }
 @media (max-width: 1020px) {
   .code-card, .profile-card { position: relative; width: 100%; transform: none; animation: none; }
+  .js .code-card.load, .js .profile-card.load { animation: load-in .9s var(--ease-out) calc(var(--d, 0) * 90ms + 100ms) forwards; }
   .code-card { order: 2; }
 }
 .profile-top { display: flex; align-items: center; gap: 14px; padding: 18px 20px; border-bottom: 1px solid var(--border); }
@@ -505,7 +517,7 @@ h2.section-title { font-size: clamp(30px, 4vw, 46px); letter-spacing: -0.035em; 
   .case-meta > div:nth-child(n+3) { border-top: 1px solid var(--border); }
 }
 .case-body { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr); gap: 44px; padding: 30px 36px 36px; }
-@media (max-width: 980px) { .case-body { grid-template-columns: 1fr; gap: 28px; } }
+@media (max-width: 980px) { .case-body { grid-template-columns: minmax(0, 1fr); gap: 28px; } }
 @media (max-width: 640px) { .case-body { padding: 22px 20px 24px; } }
 .case-aside { position: sticky; top: 100px; align-self: start; }
 @media (max-width: 980px) { .case-aside { position: static; } }
@@ -547,31 +559,20 @@ h2.section-title { font-size: clamp(30px, 4vw, 46px); letter-spacing: -0.035em; 
 }
 .window-bar { display: flex; align-items: center; gap: 6px; padding: 10px 12px; border-bottom: 1px solid var(--border); background: var(--surface-2); }
 .window-bar i { width: 9px; height: 9px; border-radius: 50%; background: var(--border-strong); }
-.window-bar span { margin-left: 8px; font-family: var(--font-mono); font-size: 11px; color: var(--text-3); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.window-body { display: grid; grid-template-columns: 128px 1fr; min-height: 230px; }
-.window-side { border-right: 1px solid var(--border); padding: 10px 8px; display: grid; align-content: start; gap: 2px; }
-.window-side span { position: relative; font-size: 11.5px; color: var(--text-3); padding: 5px 8px; border-radius: 6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.window-side span.on { color: var(--text); background: var(--surface-2); font-weight: 500; }
-.window-side span.on::before { content: ""; position: absolute; left: 0; top: 6px; bottom: 6px; width: 2px; border-radius: 2px; background: var(--ca); }
-.window-main { padding: 12px; display: grid; gap: 10px; align-content: start; min-width: 0; }
-.tiles { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
-.tile { border: 1px solid var(--border); border-radius: 8px; padding: 9px; background: var(--surface); min-width: 0; }
-.tile small { display: block; font-size: 10.5px; color: var(--text-3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.tile b { display: block; margin-top: 7px; height: 10px; width: 64%; border-radius: 3px; background: var(--border-strong); transform-origin: 0 50%; }
-.tile.hl b { background: var(--ca); }
-.js .case .tile b { transform: scaleX(0); transition: transform .9s var(--ease-out) .5s; }
-.js .case.in .tile b { transform: scaleX(1); }
-.js .case .tile:nth-child(2) b { transition-delay: .6s; } .js .case .tile:nth-child(3) b { transition-delay: .7s; }
-.rows { border: 1px solid var(--border); border-radius: 8px; background: var(--surface); overflow: hidden; }
-.row { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 8px 10px; font-size: 11.5px; color: var(--text-2); }
-.row + .row { border-top: 1px solid var(--border); }
-.row span:first-child { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.js .case .row { opacity: 0; transform: translateY(6px); transition: opacity .45s var(--ease-out), transform .45s var(--ease-out); transition-delay: calc(var(--i, 0) * 110ms + 700ms); }
-.js .case.in .row { opacity: 1; transform: none; }
-.pill { flex-shrink: 0; font-size: 10px; font-weight: 500; padding: 2px 7px; border-radius: 999px; background: var(--surface-2); color: var(--text-3); border: 1px solid var(--border); }
-.pill.ok { color: var(--success); background: var(--success-soft); border-color: transparent; }
-.pill.info { color: var(--accent); background: var(--accent-soft); border-color: transparent; }
-@media (max-width: 420px) { .window-body { grid-template-columns: 1fr; } .window-side { display: none; } }
+.window-bar span { min-width: 0; margin-left: 8px; font-family: var(--font-mono); font-size: 11px; color: var(--text-3); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+/* real screenshots inside the window frame */
+.window.shot { display: block; cursor: zoom-in; }
+.window.shot img { width: 100%; height: auto; background: var(--surface-2); }
+.window.shot:hover { border-color: var(--ca); }
+.window.shot:focus-visible { outline-offset: 4px; border-radius: 14px; }
+.shot-next { margin-top: 12px; }
+.shot-grid { margin-top: 10px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; align-items: start; }
+.shot-grid .window { border-radius: 10px; }
+.shot-grid .window-bar { padding: 7px 9px; gap: 4px; }
+.shot-grid .window-bar i { width: 7px; height: 7px; }
+.shot-grid .window-bar span { font-size: 10px; margin-left: 4px; }
+.shot-grid img { aspect-ratio: 2.3 / 1; object-fit: cover; object-position: left top; }
+.shot-grid-natural img { aspect-ratio: auto; }
 
 .keyfacts { margin-top: 16px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
 .keyfact { border: 1px solid var(--border); border-radius: 10px; padding: 12px 14px; background: var(--surface); transition: border-color .2s var(--ease); }
@@ -613,6 +614,7 @@ details.more[open] .more-body { animation: open-down .45s var(--ease-out); }
 .project p { margin-top: 12px; font-size: 14.5px; color: var(--text-2); line-height: 1.6; flex: 1; }
 .project p.p-role { margin-top: 4px; font-size: 13px; color: var(--text-3); flex: 0 0 auto; }
 .project .chips { margin-top: 18px; }
+.project .text-link { margin-top: 8px; align-self: flex-start; }
 
 /* ================= EXPERIENCE (timeline) ================= */
 .timeline { position: relative; display: grid; gap: 24px; padding-left: 40px; }
@@ -645,8 +647,10 @@ details.more[open] .more-body { animation: open-down .45s var(--ease-out); }
 .skill-list li { font-size: 13.5px; color: var(--text-2); padding: 5px 10px; border-radius: 7px; background: var(--surface-2); border: 1px solid var(--border); transition: border-color .2s var(--ease), color .2s var(--ease), transform .2s var(--ease); }
 .skill-list li:hover { border-color: var(--accent); color: var(--text); transform: translateY(-1px); }
 .skill-list li.core { color: var(--text); font-weight: 500; border-color: var(--border-strong); background: var(--surface); }
-.js .skill-group .skill-list li { opacity: 0; transform: scale(.94); transition: opacity .4s var(--ease-out), transform .4s var(--ease-out), border-color .2s, color .2s; transition-delay: calc(var(--i, 0) * 35ms + 150ms); }
-.js .skill-group.in .skill-list li { opacity: 1; transform: none; }
+/* entrance uses an animation on `scale`, so the chip's own hover transition stays fast and undelayed */
+.js .skill-group .skill-list li { opacity: 0; }
+.js .skill-group.in .skill-list li { animation: chip-in .4s var(--ease-out) calc(var(--i, 0) * 35ms + 150ms) both; }
+@keyframes chip-in { from { opacity: 0; scale: .94; } to { opacity: 1; scale: 1; } }
 .skills-legend { margin-top: 18px; font-size: 13px; color: var(--text-3); display: flex; align-items: center; gap: 8px; }
 .skills-legend i { display: inline-block; width: 14px; height: 14px; border-radius: 4px; border: 1px solid var(--border-strong); background: var(--surface); }
 
@@ -727,22 +731,25 @@ footer { padding: 40px 0 48px; border-top: 1px solid var(--border); margin-top: 
 .toast.show { opacity: 1; visibility: visible; transform: translate(-50%, 0); }
 
 /* ================= SCROLL REVEAL ================= */
-.js .reveal { opacity: 0; transform: translateY(24px); transition: opacity .8s var(--ease-out), transform .8s var(--ease-out); transition-delay: calc(var(--i, 0) * 80ms); }
-.js .reveal.in { opacity: 1; transform: none; }
-.js .reveal-blur { opacity: 0; filter: blur(8px); transform: translateY(12px); transition: opacity .9s var(--ease-out), filter .9s var(--ease-out), transform .9s var(--ease-out); }
-.js .reveal-blur.in { opacity: 1; filter: blur(0); transform: none; }
+/* Entrances are animations on `translate`, not transitions on `transform`, so they don't override
+   each card's own hover transitions (which would make hovers slow and delayed). */
+.js .reveal { opacity: 0; }
+.js .reveal.in { animation: reveal-up .8s var(--ease-out) calc(var(--i, 0) * 80ms) both; }
+@keyframes reveal-up { from { opacity: 0; translate: 0 24px; } to { opacity: 1; translate: 0 0; } }
+.js .reveal-blur { opacity: 0; }
+.js .reveal-blur.in { animation: reveal-blur .9s var(--ease-out) both; }
+@keyframes reveal-blur { from { opacity: 0; filter: blur(8px); translate: 0 12px; } to { opacity: 1; filter: blur(0); translate: 0 0; } }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation: none !important; transition-duration: .01ms !important; transition-delay: 0s !important; }
-  .js .reveal, .js .reveal-blur, .js .load, .js .case .checklist li, .js .case .row, .js .skill-group .skill-list li { opacity: 1 !important; transform: none !important; filter: none !important; }
-  .js .case .tile b { transform: none !important; }
+  .js .reveal, .js .reveal-blur, .js .load, .js .case .checklist li, .js .skill-group .skill-list li { opacity: 1 !important; transform: none !important; translate: none !important; scale: none !important; filter: none !important; }
   .marquee-track { flex-wrap: wrap; width: auto; justify-content: center; }
   .marquee-track > [aria-hidden="true"] { display: none; }
 }
 @media print {
   .nav, .mobile-menu, .hero-cta, .theme-toggle, .to-top, .progress, .backdrop, .marquee-wrap, details.more summary .chev { display: none !important; }
-  .reveal, .reveal-blur, .load { opacity: 1 !important; transform: none !important; filter: none !important; }
+  .reveal, .reveal-blur, .load, .skill-list li { opacity: 1 !important; transform: none !important; translate: none !important; scale: none !important; filter: none !important; animation: none !important; }
   section { padding: 32px 0; }
 }
 </style>
@@ -853,14 +860,14 @@ footer { padding: 40px 0 48px; border-top: 1px solid var(--border); margin-top: 
               <span class="word">marketplaces</span>
               <span class="word">dashboards</span>
             </span>
-            <span class="line load" style="--d:3">that businesses run on.</span>
+            <span class="line load" style="--d:3">that businesses run&nbsp;on.</span>
           </span>
         </h1>
         <p class="hero-sub load" style="--d:4">I'm <strong>Faheem Haider</strong>, a full-stack software engineer at <strong>Tetralogicx</strong> in Lahore, Pakistan. I build production web products end to end, with <strong>React and TypeScript</strong> on the front end and <strong>Laravel and Node.js</strong> on the back end. My recent work includes a multi-tenant commerce operations SaaS, a multi-vendor marketplace and an app listed on the Shopify App Store.</p>
         <div class="hero-cta load" style="--d:5">
           <a class="btn btn-accent" href="#work">View case studies <svg class="icon-sm arrow" aria-hidden="true"><use href="#i-arrow-right"/></svg></a>
           <a class="btn btn-secondary" href="resume.pdf" data-resume download>Download résumé <svg class="icon-sm" aria-hidden="true"><use href="#i-download"/></svg></a>
-          <a class="btn btn-secondary" href="https://github.com/faheem521" target="_blank" rel="noopener"><svg class="icon-sm" aria-hidden="true"><use href="#i-github"/></svg>GitHub</a>
+          <a class="btn btn-secondary" href="https://github.com/faheem284" target="_blank" rel="noopener"><svg class="icon-sm" aria-hidden="true"><use href="#i-github"/></svg>GitHub</a>
         </div>
         <div class="markets load" style="--d:6" aria-label="Regions I am open to working with">
           <span class="markets-label">Open to teams in</span>
@@ -880,7 +887,7 @@ footer { padding: 40px 0 48px; border-top: 1px solid var(--border); margin-top: 
 <span class="ln">4</span>  frontend<span class="tk-p">: [</span><span class="tk-s">'React'</span><span class="tk-p">,</span> <span class="tk-s">'TypeScript'</span><span class="tk-p">,</span> <span class="tk-s">'Next.js'</span><span class="tk-p">],</span>
 <span class="ln">5</span>  backend<span class="tk-p">: [</span><span class="tk-s">'Laravel'</span><span class="tk-p">,</span> <span class="tk-s">'Node.js'</span><span class="tk-p">],</span>
 <span class="ln">6</span>  platforms<span class="tk-p">: [</span><span class="tk-s">'Shopify'</span><span class="tk-p">,</span> <span class="tk-s">'Stripe'</span><span class="tk-p">],</span>
-<span class="ln">7</span>  experience<span class="tk-p">:</span> <span class="tk-s">'2+ years'</span><span class="tk-p">,</span>
+<span class="ln">7</span>  experience<span class="tk-p">:</span> <span class="tk-s">'2.5+ years'</span><span class="tk-p">,</span>
 <span class="ln">8</span>  openToWork<span class="tk-p">:</span> <span class="tk-n">true</span><span class="tk-p">,</span>
 <span class="ln">9</span><span class="tk-p">};</span> <span class="tk-c">// let's build something</span><span class="cursor"></span></pre>
         </div>
@@ -901,7 +908,7 @@ footer { padding: 40px 0 48px; border-top: 1px solid var(--border); margin-top: 
           </dl>
           <div class="profile-links">
             <a href="https://www.linkedin.com/in/faheemhaider07" target="_blank" rel="noopener" aria-label="LinkedIn profile"><svg class="icon-sm" aria-hidden="true"><use href="#i-linkedin"/></svg>LinkedIn</a>
-            <a href="https://github.com/faheem521" target="_blank" rel="noopener" aria-label="GitHub profile"><svg class="icon-sm" aria-hidden="true"><use href="#i-github"/></svg>GitHub</a>
+            <a href="https://github.com/faheem284" target="_blank" rel="noopener" aria-label="GitHub profile"><svg class="icon-sm" aria-hidden="true"><use href="#i-github"/></svg>GitHub</a>
             <a href="mailto:faheemhaider521@gmail.com" aria-label="Send an email"><svg class="icon-sm" aria-hidden="true"><use href="#i-mail"/></svg>Email</a>
           </div>
         </aside>
@@ -909,7 +916,7 @@ footer { padding: 40px 0 48px; border-top: 1px solid var(--border); margin-top: 
     </div>
 
     <div class="stats load" style="--d:7" role="list" aria-label="Highlights">
-      <div class="stat" role="listitem"><div class="stat-value"><span data-count="2">2</span>+<span class="unit">yrs</span></div><div class="stat-label">Building production software for clients and products</div></div>
+      <div class="stat" role="listitem"><div class="stat-value"><span>2.5</span>+<span class="unit">yrs</span></div><div class="stat-label">Building production software for clients and products</div></div>
       <div class="stat" role="listitem"><div class="stat-value"><span data-count="10">10</span>+</div><div class="stat-label">Commercial products contributed to</div></div>
       <div class="stat" role="listitem"><div class="stat-value"><span data-count="1500">1,500</span>+</div><div class="stat-label">Commits across product and client codebases</div></div>
       <div class="stat" role="listitem"><div class="stat-value"><span data-count="7">7</span></div><div class="stat-label">Courier APIs integrated behind one shipping layer</div></div>
@@ -993,7 +1000,7 @@ footer { padding: 40px 0 48px; border-top: 1px solid var(--border); margin-top: 
           <dl class="case-meta">
             <div><dt>Role</dt><dd>Primary full-stack engineer</dd></div>
             <div><dt>Timeline</dt><dd>2026 — present</dd></div>
-            <div><dt>Team</dt><dd>2 engineers; ~85% of commits</dd></div>
+            <div><dt>Team</dt><dd>2 engineers; ~88% of commits</dd></div>
             <div><dt>Platforms</dt><dd>Web app, Shopify app, marketing site</dd></div>
           </dl>
         </div>
@@ -1026,26 +1033,26 @@ footer { padding: 40px 0 48px; border-top: 1px solid var(--border); margin-top: 
             </div>
           </div>
           <div class="case-aside">
-            <div class="window-wrap"><div class="window tilt" role="img" aria-label="Illustration of the Ordexa dashboard showing its main modules">
-              <div class="window-bar"><i></i><i></i><i></i><span>app.ordexa.cc / shipments</span></div>
-              <div class="window-body">
-                <div class="window-side"><span>Dashboard</span><span>Orders</span><span class="on">Shipments</span><span>COD Finance</span><span>Inventory</span><span>Customers</span><span>WhatsApp</span><span>Reports</span></div>
-                <div class="window-main">
-                  <div class="tiles"><div class="tile hl"><small>Booked</small><b></b></div><div class="tile"><small>In transit</small><b></b></div><div class="tile"><small>Returned</small><b></b></div></div>
-                  <div class="rows">
-                    <div class="row"><span>TCS · booking</span><span class="pill info">Booked</span></div>
-                    <div class="row"><span>Leopards · tracking</span><span class="pill">In transit</span></div>
-                    <div class="row"><span>PostEx · remittance</span><span class="pill ok">Reconciled</span></div>
-                    <div class="row"><span>M&amp;P · return</span><span class="pill">Returned</span></div>
-                  </div>
-                </div>
-              </div>
-            </div></div>
+            <div class="window-wrap"><a class="window shot tilt" href="images/ordexa-cod.webp" target="_blank" rel="noopener">
+              <div class="window-bar" aria-hidden="true"><i></i><i></i><i></i><span>Ordexa / COD Reconciliation</span></div>
+              <img src="images/ordexa-cod.webp" width="1440" height="646" loading="lazy" decoding="async" alt="Ordexa COD Reconciliation overview: cash in transit, COD receivable, overdue and recovered totals above a weekly chart comparing booked, delivered and courier-settled cash-on-delivery amounts.">
+            </a></div>
+            <div class="shot-grid">
+              <a class="window shot" href="images/ordexa-dashboard.webp" target="_blank" rel="noopener">
+                <div class="window-bar" aria-hidden="true"><i></i><i></i><i></i><span>Dashboard</span></div>
+                <img src="images/ordexa-dashboard.webp" width="1440" height="438" loading="lazy" decoding="async" alt="Ordexa dashboard with all-time KPI cards: sales, orders, gross profit, profit margin, pending actions, average order value, return rate and inventory value.">
+              </a>
+              <a class="window shot" href="images/ordexa-orders.webp" target="_blank" rel="noopener">
+                <div class="window-bar" aria-hidden="true"><i></i><i></i><i></i><span>Orders</span></div>
+                <img src="images/ordexa-orders.webp" width="1440" height="620" loading="lazy" decoding="async" alt="Ordexa orders list with status tabs, search and filters for order, shipping, payment status and risk level, and a table of orders by channel, status, items and total.">
+              </a>
+            </div>
+            <p class="keyfacts-note">Screenshots from a local build with seeded demo data. Click to enlarge.</p>
             <div class="keyfacts">
-              <div class="keyfact"><b><span data-count="1000">1,000</span>+</b><span>Commits; ~85% mine</span></div>
-              <div class="keyfact"><b><span data-count="389">389</span></b><span>Automated tests (Pest)</span></div>
-              <div class="keyfact"><b><span data-count="230">230</span>+</b><span>Database migrations</span></div>
-              <div class="keyfact"><b><span data-count="130">130</span>+</b><span>Domain models</span></div>
+              <div class="keyfact"><b><span data-count="1100">1,100</span>+</b><span>Commits; ~88% mine</span></div>
+              <div class="keyfact"><b><span data-count="3000">3,000</span>+</b><span>Pest test cases</span></div>
+              <div class="keyfact"><b><span data-count="270">270</span></b><span>Database migrations</span></div>
+              <div class="keyfact"><b><span data-count="140">140</span>+</b><span>Domain models</span></div>
             </div>
             <p class="keyfacts-note">Codebase figures, not business metrics.</p>
           </div>
@@ -1129,23 +1136,19 @@ footer { padding: 40px 0 48px; border-top: 1px solid var(--border); margin-top: 
             </div>
             <div class="case-links">
               <a class="text-link" href="https://apps.shopify.com/fundlify" target="_blank" rel="noopener">View on the Shopify App Store <svg class="icon-sm" aria-hidden="true"><use href="#i-arrow-up-right"/></svg></a>
+              <a class="text-link" href="https://app.fundlify.com/c/crowdlify/otenteko-designer-backpack" target="_blank" rel="noopener">Try the live demo campaign <svg class="icon-sm" aria-hidden="true"><use href="#i-arrow-up-right"/></svg></a>
             </div>
           </div>
           <div class="case-aside">
-            <div class="window-wrap"><div class="window tilt" role="img" aria-label="Illustration of the Fundlify campaign editor">
-              <div class="window-bar"><i></i><i></i><i></i><span>admin.shopify.com / apps / fundlify</span></div>
-              <div class="window-body">
-                <div class="window-side"><span>Dashboard</span><span class="on">Campaigns</span><span>Add-ons</span><span>Orders</span><span>Notifications</span><span>Plans</span><span>Setup guide</span></div>
-                <div class="window-main">
-                  <div class="tiles"><div class="tile hl"><small>Pledged</small><b></b></div><div class="tile"><small>Backers</small><b></b></div><div class="tile"><small>Phase</small><b></b></div></div>
-                  <div class="rows">
-                    <div class="row"><span>Reward tier · Early bird</span><span class="pill ok">Active</span></div>
-                    <div class="row"><span>Pre-order phase</span><span class="pill info">Scheduled</span></div>
-                    <div class="row"><span>Pre-launch reservations</span><span class="pill">Draft</span></div>
-                  </div>
-                </div>
-              </div>
-            </div></div>
+            <div class="window-wrap"><a class="window shot tilt" href="images/fundlify-campaign.webp" target="_blank" rel="noopener">
+              <div class="window-bar" aria-hidden="true"><i></i><i></i><i></i><span>app.fundlify.com / c / crowdlify / otenteko-designer-backpack</span></div>
+              <img src="images/fundlify-campaign.webp" width="1200" height="574" loading="lazy" decoding="async" alt="Fundlify campaign page: product photo beside a funding panel showing a Pre-Order badge, € 9,264 raised of a € 25,000 goal, 15 backers, and Choose Your Reward and Refer &amp; Earn buttons.">
+            </a></div>
+            <div class="window-wrap shot-next"><a class="window shot tilt" href="images/fundlify-rewards.webp" target="_blank" rel="noopener">
+              <div class="window-bar" aria-hidden="true"><i></i><i></i><i></i><span>Campaign updates, referrals &amp; reward tiers</span></div>
+              <img src="images/fundlify-rewards.webp" width="1200" height="662" loading="lazy" decoding="async" alt="Lower part of the Fundlify campaign page: a campaign update, a Refer &amp; Earn panel, the campaign story, and a reward card for the backpack from € 150 with a January 2027 delivery date and a Get This Reward button.">
+            </a></div>
+            <p class="keyfacts-note">The Vue campaign widget on Fundlify's live demo campaign. Click to enlarge.</p>
             <div class="keyfacts">
               <div class="keyfact"><b><span data-count="230">230</span>+</b><span>Commits; #2 contributor</span></div>
               <div class="keyfact"><b>Public</b><span>Shopify App Store listing</span></div>
@@ -1184,6 +1187,7 @@ footer { padding: 40px 0 48px; border-top: 1px solid var(--border); margin-top: 
                 <li><span>Large parts of the <strong>seller and admin portals</strong> in React and Polaris on a Laravel 12 back end: product listings, add and edit product flows synced to Shopify, and category management.</span></li>
                 <li><span>The <strong>seller onboarding wizard</strong>, seller profiles and seller listings, with an admin approval flow that includes one-click approval from email.</span></li>
                 <li><span>Seller-facing <strong>orders, earnings and payouts</strong> views on top of the platform's commission engine.</span></li>
+                <li><span>Admin tools for <strong>buyer inquiries</strong> (with a hold queue and spam filtering), <strong>seller support tickets</strong> and <strong>membership plans</strong> with upload and inquiry limits per tier.</span></li>
                 <li><span>Full <strong>English and Chinese localization</strong> across the portals and the registration flow.</span></li>
               </ul>
             </div>
@@ -1202,20 +1206,31 @@ footer { padding: 40px 0 48px; border-top: 1px solid var(--border); margin-top: 
             </div>
           </div>
           <div class="case-aside">
-            <div class="window-wrap"><div class="window tilt" role="img" aria-label="Illustration of the Sourcequip seller portal">
-              <div class="window-bar"><i></i><i></i><i></i><span>seller.sourcequip.com / products</span></div>
-              <div class="window-body">
-                <div class="window-side"><span>Overview</span><span class="on">Products</span><span>Orders</span><span>Earnings</span><span>Payouts</span><span>Inquiries</span><span>Membership</span><span>Profile</span></div>
-                <div class="window-main">
-                  <div class="tiles"><div class="tile hl"><small>Listings</small><b></b></div><div class="tile"><small>Open RFQs</small><b></b></div><div class="tile"><small>Payouts</small><b></b></div></div>
-                  <div class="rows">
-                    <div class="row"><span>New product · pending review</span><span class="pill info">In review</span></div>
-                    <div class="row"><span>Buyer inquiry · RFQ</span><span class="pill">Open</span></div>
-                    <div class="row"><span>Payout batch</span><span class="pill ok">Paid</span></div>
-                  </div>
-                </div>
-              </div>
-            </div></div>
+            <div class="window-wrap"><a class="window shot tilt" href="images/sourcequip-categories.webp" target="_blank" rel="noopener">
+              <div class="window-bar" aria-hidden="true"><i></i><i></i><i></i><span>Admin portal / Products / Categories</span></div>
+              <img src="images/sourcequip-categories.webp" width="1350" height="626" loading="lazy" decoding="async" alt="Sourcequip admin portal, Categories page: a nested category tree (Material Handling, Forklifts, Counter Balance, Electric, LPG, Reach Truck, Telehandler) where every category shows a Synced-to-Shopify badge, its count of approved products, an active toggle and edit and delete actions.">
+            </a></div>
+            <div class="shot-grid">
+              <a class="window shot" href="images/sourcequip-memberships.webp" target="_blank" rel="noopener">
+                <div class="window-bar" aria-hidden="true"><i></i><i></i><i></i><span>Membership plans</span></div>
+                <img src="images/sourcequip-memberships.webp" width="1352" height="408" loading="lazy" decoding="async" alt="Membership Levels page listing Diamond, Gold and Free Trial plans with original and sale price, duration, product upload limit, daily inquiry limit, active members and display priority.">
+              </a>
+              <a class="window shot" href="images/sourcequip-inquiries.webp" target="_blank" rel="noopener">
+                <div class="window-bar" aria-hidden="true"><i></i><i></i><i></i><span>Buyer inquiries</span></div>
+                <img src="images/sourcequip-inquiries.webp" width="1354" height="620" loading="lazy" decoding="async" alt="Buyer Inquiries page with status tabs (Active, On Hold, Completed, Spam), a seller filter and a table of inquiries by product, seller, status and date. Buyer names and emails are blurred.">
+              </a>
+            </div>
+            <div class="shot-grid shot-grid-natural">
+              <a class="window shot" href="images/sourcequip-register-en.webp" target="_blank" rel="noopener">
+                <div class="window-bar" aria-hidden="true"><i></i><i></i><i></i><span>Sign-up · English</span></div>
+                <img src="images/sourcequip-register-en.webp" width="760" height="704" loading="lazy" decoding="async" alt="Sourcequip seller registration form in English, with an English / Chinese language switch.">
+              </a>
+              <a class="window shot" href="images/sourcequip-register-zh.webp" target="_blank" rel="noopener">
+                <div class="window-bar" aria-hidden="true"><i></i><i></i><i></i><span>Sign-up · 中文</span></div>
+                <img src="images/sourcequip-register-zh.webp" width="760" height="704" loading="lazy" decoding="async" alt="The same Sourcequip seller registration form shown in Chinese.">
+              </a>
+            </div>
+            <p class="keyfacts-note">Admin portal on the sandbox store, with buyer details blurred; seller sign-up from seller.sourcequip.com. Click to enlarge.</p>
             <div class="keyfacts">
               <div class="keyfact"><b>~<span data-count="190">190</span></b><span>Commits since joining</span></div>
               <div class="keyfact"><b>EN / 中文</b><span>Bilingual seller experience</span></div>
@@ -1267,20 +1282,21 @@ footer { padding: 40px 0 48px; border-top: 1px solid var(--border); margin-top: 
             </div>
           </div>
           <div class="case-aside">
-            <div class="window-wrap"><div class="window tilt" role="img" aria-label="Illustration of the SD Fleet store admin">
-              <div class="window-bar"><i></i><i></i><i></i><span>admin / stores / sd-fleet / analytics</span></div>
-              <div class="window-body">
-                <div class="window-side"><span>Home</span><span>Orders</span><span>Products</span><span>Customers</span><span class="on">Analytics</span><span>Discounts</span><span>Rewards</span><span>Settings</span></div>
-                <div class="window-main">
-                  <div class="tiles"><div class="tile hl"><small>Revenue</small><b></b></div><div class="tile"><small>Orders</small><b></b></div><div class="tile"><small>Customers</small><b></b></div></div>
-                  <div class="rows">
-                    <div class="row"><span>Delivery zone · ZIP rules</span><span class="pill ok">Active</span></div>
-                    <div class="row"><span>Tax region · simulator</span><span class="pill info">Preview</span></div>
-                    <div class="row"><span>Staff invite · Manager</span><span class="pill">Pending</span></div>
-                  </div>
-                </div>
-              </div>
-            </div></div>
+            <div class="window-wrap"><a class="window shot tilt" href="images/sdfleet-dashboard.webp" target="_blank" rel="noopener">
+              <div class="window-bar" aria-hidden="true"><i></i><i></i><i></i><span>SD Fleet admin / Dashboard</span></div>
+              <img src="images/sdfleet-dashboard.webp" width="1440" height="666" loading="lazy" decoding="async" alt="SD Fleet commerce admin dashboard: KPI cards for today's sales, orders, unfulfilled orders, low-stock SKUs and delivery SLA, a to-do list for pending products, low inventory and abandoned carts, and a top-issues panel for missing images and invalid UPCs.">
+            </a></div>
+            <div class="shot-grid">
+              <a class="window shot" href="images/sdfleet-orders.webp" target="_blank" rel="noopener">
+                <div class="window-bar" aria-hidden="true"><i></i><i></i><i></i><span>Orders</span></div>
+                <img src="images/sdfleet-orders.webp" width="1440" height="780" loading="lazy" decoding="async" alt="SD Fleet orders list with search, status, fulfillment and delivery filters, saved filters, and orders showing delivery mode, financial status (paid, partially paid, refunded) and fulfillment status.">
+              </a>
+              <a class="window shot" href="images/sdfleet-tax-providers.webp" target="_blank" rel="noopener">
+                <div class="window-bar" aria-hidden="true"><i></i><i></i><i></i><span>Settings / Taxes</span></div>
+                <img src="images/sdfleet-tax-providers.webp" width="1440" height="730" loading="lazy" decoding="async" alt="SD Fleet settings: tax providers page listing Avalara, TaxJar and Vertex with connect buttons, plus manual tax configuration, beside the settings menu.">
+              </a>
+            </div>
+            <p class="keyfacts-note">Screenshots from a local build with test data. Click to enlarge.</p>
             <div class="keyfacts">
               <div class="keyfact"><b><span data-count="90">90</span>+</b><span>Domain models in the platform</span></div>
               <div class="keyfact"><b><span data-count="4">4</span></b><span>Store staff roles</span></div>
@@ -1331,20 +1347,21 @@ footer { padding: 40px 0 48px; border-top: 1px solid var(--border); margin-top: 
             </div>
           </div>
           <div class="case-aside">
-            <div class="window-wrap"><div class="window tilt" role="img" aria-label="Illustration of the Mexicano admin portal">
-              <div class="window-bar"><i></i><i></i><i></i><span>/admin / orders</span></div>
-              <div class="window-body">
-                <div class="window-side"><span>Dashboard</span><span class="on">Orders</span><span>Menu</span><span>Customers</span><span>Reviews</span><span>Discounts</span><span>Promotions</span><span>Notifications</span></div>
-                <div class="window-main">
-                  <div class="tiles"><div class="tile hl"><small>New orders</small><b></b></div><div class="tile"><small>Preparing</small><b></b></div><div class="tile"><small>Delivered</small><b></b></div></div>
-                  <div class="rows">
-                    <div class="row"><span>Order · status → Ready</span><span class="pill info">Push sent</span></div>
-                    <div class="row"><span>Card payment · Stripe</span><span class="pill ok">Paid</span></div>
-                    <div class="row"><span>New review</span><span class="pill">Moderate</span></div>
-                  </div>
-                </div>
-              </div>
-            </div></div>
+            <div class="window-wrap"><a class="window shot tilt" href="images/mexicano-orders.webp" target="_blank" rel="noopener">
+              <div class="window-bar" aria-hidden="true"><i></i><i></i><i></i><span>Mexicano admin / Orders</span></div>
+              <img src="images/mexicano-orders.webp" width="1440" height="780" loading="lazy" decoding="async" alt="Mexicano restaurant admin orders page with status, payment and delivery filters and a table of orders by type (pick up, delivery, dine in), amount, payment status and order status such as out for delivery, preparing, delivered and cancelled.">
+            </a></div>
+            <div class="shot-grid">
+              <a class="window shot" href="images/mexicano-reviews.webp" target="_blank" rel="noopener">
+                <div class="window-bar" aria-hidden="true"><i></i><i></i><i></i><span>Reviews</span></div>
+                <img src="images/mexicano-reviews.webp" width="1440" height="840" loading="lazy" decoding="async" alt="Mexicano reviews page: average rating 4.00 out of 5, star distribution, and reviews with order items, food and service ratings, tags and comments.">
+              </a>
+              <a class="window shot" href="images/mexicano-push.webp" target="_blank" rel="noopener">
+                <div class="window-bar" aria-hidden="true"><i></i><i></i><i></i><span>Push notifications</span></div>
+                <img src="images/mexicano-push.webp" width="1440" height="746" loading="lazy" decoding="async" alt="Mexicano push notifications page with a compose form to send a notification to all devices and a notification history table.">
+              </a>
+            </div>
+            <p class="keyfacts-note">Screenshots from a local build with seeded demo data. Click to enlarge.</p>
             <div class="keyfacts">
               <div class="keyfact"><b>~<span data-count="56">56</span>%</b><span>Of all commits</span></div>
               <div class="keyfact"><b><span data-count="3">3</span></b><span>Clients on one API</span></div>
@@ -1362,41 +1379,56 @@ footer { padding: 40px 0 48px; border-top: 1px solid var(--border); margin-top: 
     </div>
     <div class="projects">
       <article class="project spot reveal" style="--i:0">
+        <div class="project-top"><span class="badge badge-accent">Shopify app</span><span class="badge">Upsells &amp; bundles</span></div>
+        <h4>Cartlift — Upsells &amp; Bundles</h4>
+        <p class="p-role">Lead engineer · ~70% of commits</p>
+        <p>A Shopify app for upsells, cross-sells and bundles. I built the Laravel API, the Polaris admin for campaigns and analytics, the storefront widgets and slide-out cart, and a checkout discount function for campaign pricing. Storefront text is localized into 34 languages. I built it with an AI-agent workflow (Claude Code) and debugged it across themes on live stores.</p>
+        <div class="chips"><span class="chip">Laravel 12</span><span class="chip">React</span><span class="chip">Polaris</span><span class="chip">Shopify Functions</span><span class="chip">Theme app extensions</span></div>
+      </article>
+      <article class="project spot reveal" style="--i:1">
+        <div class="project-top"><span class="badge badge-live">On Shopify App Store</span><span class="badge">Front end</span></div>
+        <h4>Trac91 — Order Fulfilment</h4>
+        <p class="p-role">Front-end engineer</p>
+        <p>A Shopify app for shipping, tracking and order management, rated 5.0 on the Shopify App Store. I built the Dashboard, Orders and Shipments sections in React, turning the designs into responsive, data-heavy layouts.</p>
+        <div class="chips"><span class="chip">React</span><span class="chip">Shopify</span><span class="chip">Responsive UI</span></div>
+        <a class="text-link" href="https://apps.shopify.com/trac91-order-fulfilment" target="_blank" rel="noopener">View on the Shopify App Store <svg class="icon-sm" aria-hidden="true"><use href="#i-arrow-up-right"/></svg></a>
+      </article>
+      <article class="project spot reveal" style="--i:2">
         <div class="project-top"><span class="badge badge-accent">SaaS</span><span class="badge">Shopify app</span></div>
         <h4>Cleverly</h4>
         <p class="p-role">React engineer · Laravel API integration</p>
         <p>A multi-tenant operations SaaS for e-commerce sellers, with an embedded Shopify app and WhatsApp/SMS order confirmation through Twilio. I built and integrated the customers, inventory, expenses, team, sales-channel, product and collection modules, the quick order view and the roles UI.</p>
         <div class="chips"><span class="chip">React</span><span class="chip">TypeScript</span><span class="chip">Laravel 12</span><span class="chip">Shopify</span><span class="chip">Twilio</span></div>
       </article>
-      <article class="project spot reveal" style="--i:1">
+      <article class="project spot reveal" style="--i:0">
         <div class="project-top"><span class="badge badge-accent">Shopify app</span><span class="badge">Solo build</span></div>
         <h4>Fleet Management for Shopify</h4>
         <p class="p-role">Sole engineer</p>
         <p>A custom B2B app where customers save their vehicle and equipment fleets, then reorder the right parts for each one in bulk. It includes an embedded admin, an Admin UI extension on the customer page, customer-account pages and Liquid storefront blocks.</p>
         <div class="chips"><span class="chip">Remix</span><span class="chip">Polaris</span><span class="chip">Prisma</span><span class="chip">MySQL</span><span class="chip">GraphQL</span></div>
       </article>
-      <article class="project spot reveal" style="--i:2">
+      <article class="project spot reveal" style="--i:1">
         <div class="project-top"><span class="badge badge-accent">Logistics</span><span class="badge">Web portal</span></div>
         <h4>Vault Delivery Portal</h4>
         <p class="p-role">Front-end engineer</p>
         <p>A role-based portal for scheduling and tracking burial-vault and monument deliveries to cemeteries and funeral homes. It supports six user roles and includes a detailed delivery-booking form, live service tracking and a Leaflet map view.</p>
         <div class="chips"><span class="chip">React Router 7</span><span class="chip">SSR</span><span class="chip">Tailwind v4</span><span class="chip">Leaflet</span></div>
       </article>
-      <article class="project spot reveal" style="--i:0">
+      <article class="project spot reveal" style="--i:2">
         <div class="project-top"><span class="badge badge-warn">In progress</span><span class="badge">AI · Internal tool</span></div>
         <h4>Outbound Engine</h4>
         <p class="p-role">Architect &amp; sole engineer</p>
         <p>An internal sales platform that combines lead sourcing and enrichment, multichannel outreach sequences and a support inbox, with AI-assisted workflows. It's a monorepo with a Next.js web app, BullMQ workers and a realtime service.</p>
         <div class="chips"><span class="chip">Next.js 15</span><span class="chip">Turborepo</span><span class="chip">Drizzle</span><span class="chip">PostgreSQL</span><span class="chip">BullMQ</span><span class="chip">Claude / OpenAI APIs</span></div>
       </article>
-      <article class="project spot reveal" style="--i:1">
+      <article class="project spot reveal" style="--i:0">
         <div class="project-top"><span class="badge badge-accent">Full-stack</span><span class="badge">Hospitality</span></div>
         <h4>Stocktab</h4>
         <p class="p-role">Back-end engineer</p>
         <p>A stock and accounts system for restaurant and hotel kitchens. I built the back end: stock in and out, supplier statements, double-entry journal entries, daily reports with day-locking, and PDF and Excel export. Zod schemas are shared between client and server.</p>
         <div class="chips"><span class="chip">Next.js 15</span><span class="chip">Route Handlers</span><span class="chip">Prisma 7</span><span class="chip">MySQL</span><span class="chip">Zod</span></div>
       </article>
-      <article class="project spot reveal" style="--i:2">
+      <article class="project spot reveal" style="--i:1">
         <div class="project-top"><span class="badge badge-accent">REST API</span><span class="badge">Mobile back end</span></div>
         <h4>Stockly POS API</h4>
         <p class="p-role">Sole back-end engineer</p>
@@ -1418,7 +1450,7 @@ footer { padding: 40px 0 48px; border-top: 1px solid var(--border); margin-top: 
       <span class="timeline-fill" aria-hidden="true"></span>
       <article class="job reveal">
         <div>
-          <div class="job-when"><svg class="icon-sm" aria-hidden="true"><use href="#i-briefcase"/></svg>Current role</div>
+          <div class="job-when"><svg class="icon-sm" aria-hidden="true"><use href="#i-briefcase"/></svg><time datetime="2024-02">Feb 2024</time>&nbsp;– Present</div>
           <div class="job-org">Tetralogicx</div>
           <div class="job-loc">Lahore, Pakistan · Software agency &amp; product studio</div>
         </div>
@@ -1430,6 +1462,7 @@ footer { padding: 40px 0 48px; border-top: 1px solid var(--border); margin-top: 
             <li><span>Core contributor to <strong>Fundlify</strong>, a public Shopify App Store app, working on the campaign builder, the Vue storefront widget, notifications and billing.</span></li>
             <li><span>Built seller and admin portal features for <strong>Sourcequip</strong>, a multi-vendor B2B marketplace on Shopify with English and Chinese localization.</span></li>
             <li><span>Front-end and API integration engineer on <strong>SD Fleet</strong>, a multi-store commerce platform built by a team of five engineers.</span></li>
+            <li><span>Lead engineer on <strong>Cartlift</strong>, a Shopify upsell and bundles app: Laravel API, Polaris admin, storefront widgets, a slide-out cart and a checkout discount function, localized into 34 store languages.</span></li>
             <li><span>Shipped features on <strong>Checkout Republic</strong>, a headless multi-gateway Shopify checkout: custom questionnaires, multiple discounts, tracking pixels and subscription management pages.</span></li>
             <li><span>Work in Git feature branches with pull-request reviews, and deploy to Cloudways, CloudPanel and PM2/Nginx servers.</span></li>
           </ul>
@@ -1438,8 +1471,8 @@ footer { padding: 40px 0 48px; border-top: 1px solid var(--border); margin-top: 
       </article>
       <article class="job reveal">
         <div>
-          <div class="job-when">Education</div>
-          <div class="job-org">COMSATS University</div>
+          <div class="job-when">Education · <time datetime="2020">2020</time>&nbsp;– <time datetime="2024">2024</time></div>
+          <div class="job-org">COMSATS University Islamabad</div>
           <div class="job-loc">Pakistan</div>
         </div>
         <div>
@@ -1457,7 +1490,7 @@ footer { padding: 40px 0 48px; border-top: 1px solid var(--border); margin-top: 
     <div class="section-head reveal-blur">
       <p class="eyebrow">Skills</p>
       <h2 class="section-title" id="skills-title">Technical skills</h2>
-      <p class="section-lead">Grouped by area. Every item has been used in at least one production project above.</p>
+      <p class="section-lead">Grouped by area. Every item has been used in at least one project on this page.</p>
     </div>
     <div class="skills">
       <div class="skill-group spot reveal" style="--i:0">
@@ -1510,7 +1543,7 @@ footer { padding: 40px 0 48px; border-top: 1px solid var(--border); margin-top: 
         <div class="icon-box"><svg class="icon" aria-hidden="true"><use href="#i-shopping-bag"/></svg></div>
         <h3>Shopify apps &amp; extensions</h3>
         <p>Embedded apps, theme and admin extensions, checkout-adjacent flows and marketplace customizations on the Shopify platform.</p>
-        <p class="proof">Shown in: <b>Fundlify, Sourcequip, Fleet Management</b></p>
+        <p class="proof">Shown in: <b>Fundlify, Cartlift, Sourcequip, Trac91</b></p>
       </div>
       <div class="service spot reveal" style="--i:2">
         <span class="num">03</span>
@@ -1551,9 +1584,9 @@ footer { padding: 40px 0 48px; border-top: 1px solid var(--border); margin-top: 
           <span><span class="ci-label">LinkedIn</span><br><span class="ci-value">linkedin.com/in/faheemhaider07</span></span>
           <svg class="icon ci-arrow" aria-hidden="true"><use href="#i-arrow-up-right"/></svg>
         </a>
-        <a class="contact-item" href="https://github.com/faheem521" target="_blank" rel="noopener">
+        <a class="contact-item" href="https://github.com/faheem284" target="_blank" rel="noopener">
           <span class="ci-icon"><svg class="icon" aria-hidden="true"><use href="#i-github"/></svg></span>
-          <span><span class="ci-label">GitHub</span><br><span class="ci-value">github.com/faheem521</span></span>
+          <span><span class="ci-label">GitHub</span><br><span class="ci-value">github.com/faheem284</span></span>
           <svg class="icon ci-arrow" aria-hidden="true"><use href="#i-arrow-up-right"/></svg>
         </a>
         <a class="contact-item" href="resume.pdf" data-resume download>
@@ -1622,8 +1655,30 @@ footer { padding: 40px 0 48px; border-top: 1px solid var(--border); margin-top: 
     var cur = doc.getAttribute('data-theme') || (mq.matches ? 'dark' : 'light');
     var next = cur === 'dark' ? 'light' : 'dark';
     doc.setAttribute('data-theme', next);
+    document.querySelectorAll('meta[name="theme-color"]').forEach(function (m) { m.setAttribute('content', next === 'dark' ? '#09090B' : '#FAFAFA'); });
     try { localStorage.setItem('theme', next); } catch (e) {}
   });
+
+  /* ---------- Active nav link + sliding pill ---------- */
+  var links = Array.prototype.slice.call(document.querySelectorAll('#navLinks a'));
+  var pill = document.getElementById('navPill');
+  var activeLink = null;
+  function movePill(a) {
+    if (!a) { pill.style.opacity = '0'; return; }
+    pill.style.width = a.offsetWidth + 'px';
+    pill.style.transform = 'translateX(' + a.offsetLeft + 'px)';
+    pill.style.opacity = '1';
+  }
+  function setActive(a) {
+    if (a === activeLink) return;
+    activeLink = a;
+    links.forEach(function (l) {
+      l.classList.toggle('active', l === a);
+      if (l === a) l.setAttribute('aria-current', 'true'); else l.removeAttribute('aria-current');
+    });
+    movePill(a);
+  }
+  window.addEventListener('resize', function () { if (activeLink) movePill(activeLink); });
 
   /* ---------- Scroll-linked: nav state, progress bar, back-to-top, timeline fill ---------- */
   var nav = document.getElementById('nav');
@@ -1642,6 +1697,9 @@ footer { padding: 40px 0 48px; border-top: 1px solid var(--border); margin-top: 
       var p = (window.innerHeight * 0.65 - r.top) / r.height;
       timeline.style.setProperty('--p', Math.max(0, Math.min(1, p)).toFixed(3));
     }
+    // The last section can be too short to reach the middle of the viewport, so the
+    // observer below never marks it active. At the very bottom, mark it directly.
+    if (max > 0 && y >= max - 4) setActive(links[links.length - 1]);
     ticking = false;
   }
   window.addEventListener('scroll', function () { if (!ticking) { requestAnimationFrame(onScroll); ticking = true; } }, { passive: true });
@@ -1688,7 +1746,7 @@ footer { padding: 40px 0 48px; border-top: 1px solid var(--border); margin-top: 
   }
 
   /* ---------- Stagger indexes for list items ---------- */
-  document.querySelectorAll('.case .checklist, .rows, .skill-list').forEach(function (list) {
+  document.querySelectorAll('.case .checklist, .skill-list').forEach(function (list) {
     Array.prototype.forEach.call(list.children, function (el, i) { el.style.setProperty('--i', i); });
   });
 
@@ -1709,14 +1767,6 @@ footer { padding: 40px 0 48px; border-top: 1px solid var(--border); margin-top: 
   }
 
   /* ---------- Observers: reveal, count-up, active nav ---------- */
-  var links = Array.prototype.slice.call(document.querySelectorAll('#navLinks a'));
-  var pill = document.getElementById('navPill');
-  function movePill(a) {
-    if (!a) { pill.style.opacity = '0'; return; }
-    pill.style.width = a.offsetWidth + 'px';
-    pill.style.transform = 'translateX(' + a.offsetLeft + 'px)';
-    pill.style.opacity = '1';
-  }
   if ('IntersectionObserver' in window) {
     var revealIO = new IntersectionObserver(function (entries) {
       entries.forEach(function (entry) {
@@ -1736,16 +1786,13 @@ footer { padding: 40px 0 48px; border-top: 1px solid var(--border); margin-top: 
     var navIO = new IntersectionObserver(function (entries) {
       entries.forEach(function (entry) {
         if (!entry.isIntersecting) return;
-        links.forEach(function (a) {
-          var on = a.getAttribute('href') === '#' + entry.target.id;
-          a.classList.toggle('active', on);
-          if (on) { a.setAttribute('aria-current', 'true'); movePill(a); } else a.removeAttribute('aria-current');
-        });
+        var match = links.filter(function (a) { return a.getAttribute('href') === '#' + entry.target.id; })[0];
+        if (match) setActive(match);
       });
     }, { rootMargin: '-45% 0px -50% 0px' });
     sections.forEach(function (s) { navIO.observe(s); });
     var heroIO = new IntersectionObserver(function (entries) {
-      if (entries[0].isIntersecting) { links.forEach(function (a) { a.classList.remove('active'); a.removeAttribute('aria-current'); }); movePill(null); }
+      if (entries[0].isIntersecting) setActive(null);
     }, { rootMargin: '-45% 0px -50% 0px' });
     heroIO.observe(document.querySelector('.hero'));
   } else {

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="robots" content="noindex">
+<title>Faheem Haider — Résumé</title>
+<!-- Source for /resume.pdf. Re-export with headless Edge/Chrome:
+     msedge --headless=new --no-pdf-header-footer --print-to-pdf=resume.pdf resume-src/resume.html -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+@page { size: Letter; margin: 0.42in 0.5in; }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Inter', 'Segoe UI', Arial, sans-serif; font-size: 9.3pt; line-height: 1.33; color: #1f2328; }
+a { color: #1d4ed8; text-decoration: none; }
+header { text-align: center; }
+h1 { font-size: 21pt; font-weight: 700; letter-spacing: 0.06em; color: #0f2a5c; }
+.title { margin-top: 2pt; font-size: 10.5pt; font-weight: 600; color: #3f4650; }
+.contact { margin-top: 3pt; font-size: 9pt; color: #3f4650; }
+.contact span + span::before { content: "|"; margin: 0 6pt; color: #9aa1aa; }
+h2 { break-after: avoid; margin-top: 7pt; padding-bottom: 2pt; border-bottom: 1.2pt solid #0f2a5c; font-size: 10.5pt; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #0f2a5c; }
+section > *:nth-child(2) { margin-top: 4pt; }
+p { margin-top: 4pt; }
+ul { margin-top: 2pt; padding-left: 13pt; }
+li { margin-top: 1.5pt; }
+li::marker { color: #0f2a5c; }
+.skills div { margin-top: 1.5pt; }
+.skills b, .row b { font-weight: 600; color: #111; }
+.row { display: flex; justify-content: space-between; gap: 12pt; align-items: baseline; margin-top: 5pt; }
+.row .meta { color: #5b636d; font-weight: 400; }
+.row .right { white-space: nowrap; color: #3f4650; font-size: 9pt; }
+.proj { margin-top: 5pt; }
+.proj + .proj { margin-top: 4pt; }
+.also { margin-top: 5pt; }
+</style>
+</head>
+<body>
+<header>
+  <h1>FAHEEM HAIDER</h1>
+  <div class="title">Full-Stack Software Engineer · React · TypeScript · Laravel · Node.js · Shopify</div>
+  <div class="contact">
+    <span>+92 342 7531284</span><span><a href="mailto:faheemhaider521@gmail.com">faheemhaider521@gmail.com</a></span><span>Lahore, Pakistan (UTC+5) · Open to remote, hybrid or on-site roles</span>
+  </div>
+  <div class="contact">
+    <span><a href="https://faheemhaider.com">faheemhaider.com</a></span><span><a href="https://www.linkedin.com/in/faheemhaider07">linkedin.com/in/faheemhaider07</a></span><span><a href="https://github.com/faheem284">github.com/faheem284</a></span>
+  </div>
+</header>
+
+<section>
+  <h2>Professional Summary</h2>
+  <p>Full-stack software engineer with 2.5+ years building production SaaS platforms, e-commerce systems and Shopify apps with React, TypeScript, Laravel and Node.js. Primary engineer on Ordexa, a multi-tenant commerce SaaS with seven courier integrations and subscription billing. I own features end to end, from database schema and APIs to UI and deployment, and use AI coding tools (Claude Code, Cursor) daily, backed by tests, static analysis and code review.</p>
+</section>
+
+<section class="skills">
+  <h2>Technical Skills</h2>
+  <div><b>Languages:</b> TypeScript, JavaScript (ES2022+), PHP 8, SQL, HTML5, CSS3, Liquid</div>
+  <div><b>Front end:</b> React, Next.js (App Router), Remix / React Router, Vue 3, Tailwind CSS, shadcn/ui, Radix UI, TanStack Query, Redux Toolkit, Zustand, React Hook Form + Zod, Recharts</div>
+  <div><b>Back end &amp; APIs:</b> Laravel, Node.js / Express, REST API design, GraphQL, multi-tenancy, RBAC, queues &amp; scheduled jobs (Redis, Horizon), webhooks, OAuth / JWT / Sanctum</div>
+  <div><b>Shopify:</b> Embedded apps, GraphQL Admin API, Polaris, App Bridge, theme app extensions, admin UI extensions, discount functions, app proxy, metafields &amp; metaobjects, Billing API</div>
+  <div><b>Data &amp; infrastructure:</b> MySQL / MariaDB, PostgreSQL, Prisma, Redis, AWS S3, Docker, PM2 / Nginx, Cloudways, Sentry</div>
+  <div><b>Integrations &amp; quality:</b> Stripe, PayPal, Twilio, WhatsApp API, SendGrid, FCM · Pest, Vitest, PHPStan · Claude Code, Cursor</div>
+</section>
+
+<section>
+  <h2>Professional Experience</h2>
+  <div class="row"><b>Tetralogicx (Pvt.) Ltd. — Full-Stack Software Engineer <span class="meta">· Lahore, Pakistan</span></b><span class="right">Feb 2024 – Present</span></div>
+  <ul>
+    <li>Build SaaS products, e-commerce platforms and Shopify apps for in-house products and international clients; contributed to 10+ commercial products, solo and in teams of up to five, with PR-based code review.</li>
+    <li>Lead engineer on Cartlift, a Shopify upsell &amp; bundles app built with an AI-agent workflow (Claude Code): Laravel API, Polaris admin, storefront widgets, a slide-out cart and a checkout discount function, supporting 34 store languages; debugged it across themes on live stores.</li>
+    <li>Shipped questionnaires, multi-discounts, tracking pixels and subscription pages on Checkout Republic, a headless Shopify checkout.</li>
+  </ul>
+</section>
+
+<section>
+  <h2>Key Projects</h2>
+  <div class="proj">
+    <div class="row"><b>Ordexa — Multi-tenant COD commerce operations SaaS <span class="meta">· Laravel 13, React 19, TypeScript, Redis, MySQL</span></b><a class="right" href="https://ordexa.cc">ordexa.cc</a></div>
+    <ul>
+      <li>Primary full-stack engineer (~88% of 1,100+ commits) on a multi-tenant Laravel API and React/TypeScript SPA with organization-scoped data, custom roles and per-member permission overrides.</li>
+      <li>Built a courier layer with one driver interface over 7 couriers (booking, tracking, load sheets), Shopify and Salla order sync, COD reconciliation, WhatsApp Cloud API messaging and Stripe / Shopify subscription billing.</li>
+      <li>3,000+ Pest test cases, PHPStan and Redis/Horizon queues; also built the SEO-first Next.js 15 marketing site.</li>
+    </ul>
+  </div>
+  <div class="proj">
+    <div class="row"><b>Fundlify — Crowdfunding &amp; pre-orders Shopify app <span class="meta">· Remix, Polaris, GraphQL, Vue 3</span></b><a class="right" href="https://apps.shopify.com/fundlify">apps.shopify.com/fundlify</a></div>
+    <ul>
+      <li>#2 contributor (230+ commits): campaign builder, Vue 3 storefront widget, email notifications and Billing API charges.</li>
+    </ul>
+  </div>
+  <div class="proj">
+    <div class="row"><b>Sourcequip — Multi-vendor B2B marketplace <span class="meta">· Laravel 12, React, Polaris</span></b><a class="right" href="https://sourcequip.com">sourcequip.com</a></div>
+    <ul>
+      <li>Seller onboarding with admin approval, listings synced to Shopify, earnings and payouts, English / Chinese localization.</li>
+    </ul>
+  </div>
+  <div class="proj">
+    <div class="row"><b>Trac91 — Order fulfilment &amp; tracking Shopify app <span class="meta">· React</span></b><a class="right" href="https://apps.shopify.com/trac91-order-fulfilment">apps.shopify.com/trac91-order-fulfilment</a></div>
+    <ul>
+      <li>Built the Dashboard, Orders and Shipments sections, converting designs into responsive layouts.</li>
+    </ul>
+  </div>
+  <p class="also"><b>Also:</b> SD Fleet (multi-store commerce admin, 5-engineer team — React, Redux Toolkit, Laravel 11) · Mexicano (restaurant ordering API and admin, lead contributor — Node.js, Express, Prisma, FCM).</p>
+</section>
+
+<section>
+  <h2>Education</h2>
+  <div class="row"><span><b>BS Software Engineering — COMSATS University Islamabad</b> <span class="meta">· Languages: English, Urdu</span></span><span class="right">2020 – 2024</span></div>
+</section>
+</body>
+</html>
